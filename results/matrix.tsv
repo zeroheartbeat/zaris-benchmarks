@@ -1,0 +1,10 @@
+label	nodes	peak_ops	point	node_cpu_mem	server_bound
+zaris-resp-4core	1	2889151	pipe64 thr8 conn50	n0:97%/723.1MiB 	server-bound
+zaris-native-4core	1	1243774	conc4096 x3cli	n0:94%/2.118GiB 	server-bound
+redis-4core	1	2449364	pipe64 thr8 conn50	n0:98%/18.25MiB 	server-bound
+zaris-resp-4core	2	4813157	pipe64 thr8 conn100	n0:98%/771.5MiB n1:98%/787.3MiB 	server-bound
+zaris-native-4core	2	1917608	conc2048 x3cli	n0:79%/1.143GiB n1:79%/1.137GiB 	CLIENT-BOUND(not saturated)
+redis-4core	2	798270	pipe64 thr8 conn50	n0:9%/9.176MiB n1:13%/9.199MiB 	CLIENT-BOUND(not saturated)
+zaris-resp-4core	3	7185809	pipe64 thr8 conn50	n0:97%/718.1MiB n1:98%/709.4MiB n2:97%/692.3MiB 	server-bound
+zaris-native-4core	3	2084541	conc4096 x3cli	n0:64%/1.04GiB n1:63%/1.029GiB n2:63%/1.036GiB 	CLIENT-BOUND(not saturated)
+redis-4core	3	6950251	pipe64 thr8 conn50	n0:93%/20.7MiB n1:93%/20.33MiB n2:98%/18.4MiB 	server-bound

@@ -1,0 +1,181 @@
+[11:47:46] ===== 4-core, 1-node =====
+[11:47:46] --- Zaris RESP N=1 (pinned-per-owner) ---
+cleaned_resp-node2
+cleaned_resp-node3
+cleaned_resp-node1
+[teardown] product containers stopped on all nodes.
+[deploy-zaris] N=1 mode=resp endpoints=n0=10.0.0.4:6379
+Warning: Permanently added '20.62.121.16' (ED25519) to the list of known hosts.
+started_n0
+[deploy-zaris] waiting for readiness (cluster convergence)...
+[deploy-zaris] ready=yes after ~12s
+[deploy-zaris] up.
+===== PINNED SWEEP zaris-resp-4core (nodes=1) =====
+PINNED PIPE=64 THR=8 CONN=50 => AGG_OPS=2889151 | n0:97%/723.1MiB 
+PINNED PIPE=64 THR=8 CONN=100 => AGG_OPS=2830234 | n0:98%/803.4MiB 
+PINNED PIPE=64 THR=8 CONN=200 => AGG_OPS=2779089 | n0:97%/911.4MiB 
+>>> PEAK zaris-resp-4core (N=1): 2889151 ops/s  [pipe64 thr8 conn50]  n0:97%/723.1MiB   (server-bound)
+[11:49:36] --- Zaris native N=1 ---
+cleaned_resp-node2
+cleaned_resp-node3
+cleaned_resp-node1
+[teardown] product containers stopped on all nodes.
+[deploy-zaris] N=1 mode=native endpoints=n0=10.0.0.4:6379
+Warning: Permanently added '20.62.121.16' (ED25519) to the list of known hosts.
+started_n0
+[deploy-zaris] waiting for readiness (cluster convergence)...
+[deploy-zaris] ready=yes after ~12s
+[deploy-zaris] up.
+===== NATIVE SWEEP zaris-native-4core (nodes=1) =====
+CONC=2048 OPS=3000000 NCLI=1 => MIX_OPS=582097 | n0:57%/2.099GiB 
+CONC=2048 OPS=4000000 NCLI=3 => MIX_OPS=1180605 | n0:93%/2.654GiB 
+CONC=4096 OPS=4000000 NCLI=3 => MIX_OPS=1243774 | n0:94%/2.118GiB 
+>>> PEAK zaris-native-4core: 1243774 ops/s  [conc4096 x3cli]  n0:94%/2.118GiB   (server-bound)
+[11:51:16] --- Redis N=1 (pinned-per-owner) ---
+cleaned_resp-node2
+cleaned_resp-node3
+cleaned_resp-node1
+[teardown] product containers stopped on all nodes.
+[deploy-redis] N=1 cores=4
+started_redis_n0
+PONG
+[deploy-redis] up.
+===== PINNED SWEEP redis-4core (nodes=1) =====
+PINNED PIPE=64 THR=8 CONN=50 => AGG_OPS=2449364 | n0:98%/18.25MiB 
+PINNED PIPE=64 THR=8 CONN=100 => AGG_OPS=2267909 | n0:98%/23.18MiB 
+PINNED PIPE=64 THR=8 CONN=200 => AGG_OPS=2192317 | n0:98%/31.85MiB 
+>>> PEAK redis-4core (N=1): 2449364 ops/s  [pipe64 thr8 conn50]  n0:98%/18.25MiB   (server-bound)
+[11:52:46] ===== 4-core, 2-node =====
+[11:52:46] --- Zaris RESP N=2 (pinned-per-owner) ---
+cleaned_resp-node2
+cleaned_resp-node3
+cleaned_resp-node1
+[teardown] product containers stopped on all nodes.
+[deploy-zaris] N=2 mode=resp endpoints=n0=10.0.0.4:6379,n1=10.0.0.6:6379
+Warning: Permanently added '20.62.121.16' (ED25519) to the list of known hosts.
+Warning: Permanently added '52.247.28.49' (ED25519) to the list of known hosts.
+started_n0
+started_n1
+[deploy-zaris] waiting for readiness (cluster convergence)...
+[deploy-zaris] ready=yes after ~9s
+[deploy-zaris] RESP CLUSTER SLOTS owners: 9
+[deploy-zaris] up.
+===== PINNED SWEEP zaris-resp-4core (nodes=2) =====
+PINNED PIPE=64 THR=8 CONN=50 => AGG_OPS=4777570 | n0:97%/721.1MiB n1:97%/706.5MiB 
+PINNED PIPE=64 THR=8 CONN=100 => AGG_OPS=4813157 | n0:98%/771.5MiB n1:98%/787.3MiB 
+PINNED PIPE=64 THR=8 CONN=200 => AGG_OPS=4694277 | n0:97%/922.7MiB n1:97%/910.3MiB 
+>>> PEAK zaris-resp-4core (N=2): 4813157 ops/s  [pipe64 thr8 conn100]  n0:98%/771.5MiB n1:98%/787.3MiB   (server-bound)
+[11:54:52] --- Zaris native N=2 ---
+cleaned_resp-node3
+cleaned_resp-node2
+cleaned_resp-node1
+[teardown] product containers stopped on all nodes.
+[deploy-zaris] N=2 mode=native endpoints=n0=10.0.0.4:6379,n1=10.0.0.6:6379
+Warning: Permanently added '20.62.121.16' (ED25519) to the list of known hosts.
+Warning: Permanently added '52.247.28.49' (ED25519) to the list of known hosts.
+started_n0
+started_n1
+[deploy-zaris] waiting for readiness (cluster convergence)...
+[deploy-zaris] ready=yes after ~9s
+[deploy-zaris] up.
+===== NATIVE SWEEP zaris-native-4core (nodes=2) =====
+CONC=2048 OPS=5000000 NCLI=3 => MIX_OPS=1917608 | n0:79%/1.143GiB n1:79%/1.137GiB 
+CONC=4096 OPS=6000000 NCLI=3 => MIX_OPS=1864949 | n0:72%/1.203GiB n1:73%/1.18GiB 
+CONC=6144 OPS=6000000 NCLI=3 => MIX_OPS=1497926 | n0:67%/1.173GiB n1:65%/1.169GiB 
+>>> PEAK zaris-native-4core: 1917608 ops/s  [conc2048 x3cli]  n0:79%/1.143GiB n1:79%/1.137GiB   (CLIENT-BOUND(not saturated))
+[11:56:39] --- Redis N=2 (pinned-per-owner) ---
+cleaned_resp-node3
+cleaned_resp-node2
+cleaned_resp-node1
+[teardown] product containers stopped on all nodes.
+[deploy-redis] N=2 cores=4
+started_redis_n1
+started_redis_n0
+[deploy-redis] forming cluster: 10.0.0.4:6379 10.0.0.6:6379 
+*** ERROR: Invalid configuration for cluster creation.
+*** Redis Cluster requires at least 3 master nodes.
+*** This is not possible with 2 nodes and 0 replicas per node.
+*** At least 3 nodes are required.
+cluster_state:fail
+cluster_known_nodes:1
+[deploy-redis] up.
+===== PINNED SWEEP redis-4core (nodes=2) =====
+ERR: no tag found for node 0
+ERR: no tag found for node 1
+PINNED PIPE=64 THR=8 CONN=50 => AGG_OPS=798270 | n0:9%/9.176MiB n1:13%/9.199MiB 
+ERR: no tag found for node 0
+ERR: no tag found for node 1
+PINNED PIPE=64 THR=8 CONN=100 => AGG_OPS=792871 | n0:22%/14.29MiB n1:17%/14.64MiB 
+ERR: no tag found for node 0
+ERR: no tag found for node 1
+PINNED PIPE=64 THR=8 CONN=200 => AGG_OPS=786801 | n0:28%/23.84MiB n1:29%/24.08MiB 
+>>> PEAK redis-4core (N=2): 798270 ops/s  [pipe64 thr8 conn50]  n0:9%/9.176MiB n1:13%/9.199MiB   (CLIENT-BOUND(not saturated))
+[12:11:08] ===== 4-core, 3-node =====
+[12:11:08] --- Zaris RESP N=3 (pinned-per-owner) ---
+cleaned_resp-node3
+cleaned_resp-node1
+cleaned_resp-node2
+[teardown] product containers stopped on all nodes.
+[deploy-zaris] N=3 mode=resp endpoints=n0=10.0.0.4:6379,n1=10.0.0.6:6379,n2=10.0.0.8:6379
+Warning: Permanently added '20.62.121.16' (ED25519) to the list of known hosts.
+Warning: Permanently added '52.247.28.49' (ED25519) to the list of known hosts.
+started_n0
+Warning: Permanently added '20.114.150.227' (ED25519) to the list of known hosts.
+started_n1
+started_n2
+[deploy-zaris] waiting for readiness (cluster convergence)...
+[deploy-zaris] ready=yes after ~9s
+[deploy-zaris] RESP CLUSTER SLOTS owners: 14
+[deploy-zaris] up.
+===== PINNED SWEEP zaris-resp-4core (nodes=3) =====
+PINNED PIPE=64 THR=8 CONN=50 => AGG_OPS=7185809 | n0:97%/718.1MiB n1:98%/709.4MiB n2:97%/692.3MiB 
+PINNED PIPE=64 THR=8 CONN=100 => AGG_OPS=7002463 | n0:97%/794.3MiB n1:97%/830.5MiB n2:98%/788.7MiB 
+PINNED PIPE=64 THR=8 CONN=200 => AGG_OPS=7008335 | n0:96%/919.6MiB n1:97%/897.2MiB n2:96%/911.2MiB 
+>>> PEAK zaris-resp-4core (N=3): 7185809 ops/s  [pipe64 thr8 conn50]  n0:97%/718.1MiB n1:98%/709.4MiB n2:97%/692.3MiB   (server-bound)
+[12:13:20] --- Zaris native N=3 ---
+cleaned_resp-node2
+cleaned_resp-node3
+cleaned_resp-node1
+[teardown] product containers stopped on all nodes.
+[deploy-zaris] N=3 mode=native endpoints=n0=10.0.0.4:6379,n1=10.0.0.6:6379,n2=10.0.0.8:6379
+Warning: Permanently added '20.62.121.16' (ED25519) to the list of known hosts.
+Warning: Permanently added '52.247.28.49' (ED25519) to the list of known hosts.
+started_n0
+Warning: Permanently added '20.114.150.227' (ED25519) to the list of known hosts.
+started_n1
+started_n2
+[deploy-zaris] waiting for readiness (cluster convergence)...
+[deploy-zaris] ready=yes after ~9s
+[deploy-zaris] up.
+===== NATIVE SWEEP zaris-native-4core (nodes=3) =====
+CONC=4096 OPS=7000000 NCLI=3 => MIX_OPS=2084541 | n0:64%/1.04GiB n1:63%/1.029GiB n2:63%/1.036GiB 
+CONC=6144 OPS=8000000 NCLI=3 => MIX_OPS=1663658 | n0:58%/1.092GiB n1:55%/1.048GiB n2:57%/1.064GiB 
+CONC=8192 OPS=8000000 NCLI=3 => MIX_OPS=1357537 | n0:48%/1.1GiB n1:46%/1.188GiB n2:48%/1.079GiB 
+>>> PEAK zaris-native-4core: 2084541 ops/s  [conc4096 x3cli]  n0:64%/1.04GiB n1:63%/1.029GiB n2:63%/1.036GiB   (CLIENT-BOUND(not saturated))
+[12:15:36] --- Redis N=3 (pinned-per-owner) ---
+cleaned_resp-node3
+cleaned_resp-node1
+cleaned_resp-node2
+[teardown] product containers stopped on all nodes.
+[deploy-redis] N=3 cores=4
+started_redis_n2
+started_redis_n0
+started_redis_n1
+[deploy-redis] forming cluster: 10.0.0.4:6379 10.0.0.6:6379 10.0.0.8:6379 
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+cluster_state:ok
+cluster_known_nodes:3
+[deploy-redis] up.
+===== PINNED SWEEP redis-4core (nodes=3) =====
+PINNED PIPE=64 THR=8 CONN=50 => AGG_OPS=6950251 | n0:93%/20.7MiB n1:93%/20.33MiB n2:98%/18.4MiB 
+PINNED PIPE=64 THR=8 CONN=100 => AGG_OPS=6561105 | n0:92%/27.12MiB n1:95%/22.74MiB n2:98%/22.95MiB 
+PINNED PIPE=64 THR=8 CONN=200 => AGG_OPS=6422234 | n0:91%/40.05MiB n1:96%/31.65MiB n2:97%/32.07MiB 
+>>> PEAK redis-4core (N=3): 6950251 ops/s  [pipe64 thr8 conn50]  n0:93%/20.7MiB n1:93%/20.33MiB n2:98%/18.4MiB   (server-bound)
+cleaned_resp-node2
+cleaned_resp-node3
+cleaned_resp-node1
+[teardown] product containers stopped on all nodes.
+[12:17:41] ===== 4-core matrix COMPLETE =====
