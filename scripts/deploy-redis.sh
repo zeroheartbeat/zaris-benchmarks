@@ -21,12 +21,19 @@ done
 wait
 sleep 4
 if [ "$N" -gt 1 ]; then
-  seeds=""; for ((i=0;i<N;i++)); do seeds+="${NODE_PRIV[$i]}:$REDIS_PORT "; done
-  echo "[deploy-redis] forming cluster: $seeds"
-  nssh "${NODE_PUB[0]}" "echo yes | sudo docker run --rm -i --network host $REDIS_IMAGE \
-    redis-cli --cluster create $seeds --cluster-replicas 0 2>&1 | tail -4"
+  echo "[deploy-redis] forming cluster manually (MEET + ADDSLOTSRANGE; works for N=2, which redis-cli create refuses)"
+  # 1) MEET every node from node0
+  for ((i=1;i<N;i++)); do
+    nssh "${NODE_PUB[0]}" "sudo docker run --rm --network host $REDIS_IMAGE redis-cli -h ${NODE_PRIV[0]} -p $REDIS_PORT cluster meet ${NODE_PRIV[$i]} $REDIS_PORT >/dev/null 2>&1"
+  done
   sleep 3
-  nssh "${NODE_PUB[0]}" "sudo docker run --rm --network host $REDIS_IMAGE redis-cli -h ${NODE_PRIV[0]} -p $REDIS_PORT cluster info 2>&1 | grep -E 'cluster_state|cluster_known_nodes'"
+  # 2) assign contiguous slot ranges evenly, one range per node
+  for ((i=0;i<N;i++)); do
+    lo=$(( i * 16384 / N )); hi=$(( (i+1) * 16384 / N - 1 )); [ "$i" -eq $((N-1)) ] && hi=16383
+    nssh "${NODE_PUB[$i]}" "sudo docker run --rm --network host $REDIS_IMAGE redis-cli -h ${NODE_PRIV[$i]} -p $REDIS_PORT cluster addslotsrange $lo $hi >/dev/null 2>&1 && echo n$i:slots_$lo-$hi"
+  done
+  sleep 3
+  nssh "${NODE_PUB[0]}" "sudo docker run --rm --network host $REDIS_IMAGE redis-cli -h ${NODE_PRIV[0]} -p $REDIS_PORT cluster info 2>&1 | grep -E 'cluster_state|cluster_known_nodes|cluster_size'"
 else
   nssh "${NODE_PUB[0]}" "sudo docker run --rm --network host $REDIS_IMAGE redis-cli -h ${NODE_PRIV[0]} -p $REDIS_PORT ping"
 fi

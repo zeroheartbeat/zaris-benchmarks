@@ -4,11 +4,14 @@
 # proximity placement group). Public IPs are only used for the SSH control plane.
 set -uo pipefail
 
-# --- hosts (filled by provision-azure.sh; values below are one live run) ---
-NODE_PUB=(20.62.121.16 52.247.28.49 20.114.150.227)   # node1 node2 node3
-NODE_PRIV=(10.0.0.4 10.0.0.6 10.0.0.8)
-CLIENT_PUB=(20.97.228.88 137.116.46.139 20.62.65.228) # client1 client2 client3
-CLIENT_PRIV=(10.0.0.7 10.0.0.9 10.0.0.5)
+# --- hosts ---
+# Fill these with your own VMs' IPs (provision-azure.sh prints them, or set them by hand).
+# Public IPs are used only for the SSH control plane; private IPs carry all benchmark traffic.
+# The 203.0.113.x values below are RFC 5737 documentation placeholders — replace them.
+NODE_PUB=(203.0.113.11 203.0.113.12 203.0.113.13)     # node1 node2 node3 (your public IPs)
+NODE_PRIV=(10.0.0.4 10.0.0.6 10.0.0.8)                # node1 node2 node3 (your VNet private IPs)
+CLIENT_PUB=(203.0.113.21 203.0.113.22 203.0.113.23)   # client1 client2 client3 (your public IPs)
+CLIENT_PRIV=(10.0.0.7 10.0.0.9 10.0.0.5)              # client1 client2 client3 (your VNet private IPs)
 
 CLUSTER_ID="bench"
 CLUSTER_PORT=7811

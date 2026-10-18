@@ -5,9 +5,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <AssemblyName>NativeBench</AssemblyName>
+    <!-- A load generator wants server GC (per-core heaps, no stop-the-world convoy on one gen0 budget) and PGO. -->
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+    <TieredPGO>true</TieredPGO>
+    <!-- The connections option (ZarisClientOptions.ConnectionsPerNode) needs the client from branch
+         perf/native-client-pipeline (first NuGet carrying it: the release after 2.0.2). Override with
+         p:ZarisClientVersion=x.y.z, or build against the source tree with p:ZarisClientSource=path. -->
+    <ZarisClientVersion Condition="'$(ZarisClientVersion)' == ''">2.0.3</ZarisClientVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- The Zaris native client, published on nuget.org. -->
-    <PackageReference Include="Clustron.Zaris.Client" Version="2.1.0" />
+  <ItemGroup Condition="'$(ZarisClientSource)' == ''">
+    <PackageReference Include="Clustron.Zaris.Client" Version="$(ZarisClientVersion)" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(ZarisClientSource)' != ''">
+    <ProjectReference Include="$(ZarisClientSource)\src\Clustron.Zaris.Client\Clustron.Zaris.Client.csproj" />
   </ItemGroup>
 </Project>

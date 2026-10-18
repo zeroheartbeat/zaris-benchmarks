@@ -7,7 +7,8 @@ LABEL="$1"; N="$2"; SECS="${3:-18}"
 OUT="$HERE/../results/matrix.tsv"; mkdir -p "$(dirname "$OUT")"
 [ -f "$OUT" ] || echo -e "label\tnodes\tpeak_ops\tpoint\tnode_cpu_mem\tserver_bound" > "$OUT"
 
-LADDER=("64 8 50" "64 8 100" "64 8 200")   # conns-per-client ladder; each point = 1 memtier/node
+# pipe threads conns  — ramp client power so even an 8-core node is driven to saturation by its one client
+LADDER=("64 8 50" "64 16 50" "64 16 100" "64 16 200")
 best_ops=0; best_point=""; best_cpu=""; best_bound="no"
 echo "===== PINNED SWEEP $LABEL (nodes=$N) ====="
 for entry in "${LADDER[@]}"; do

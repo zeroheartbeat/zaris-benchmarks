@@ -1,5 +1,13 @@
+# secrets / keys
 *.pem
 *_key
 *_key.pub
 *.key
+
+# raw and verbose run logs (keep the summarized results/*.tsv in the repo)
 results/*.raw
+results/*.log
+
+# .NET build artifacts
+**/bin/
+**/obj/

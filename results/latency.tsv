@@ -1,0 +1,4 @@
+engine	client	depth	avg_ms	p50_ms	p99_ms	node_cpu	notes
+zaris-resp	memtier(C)	pipeline1 c1 t1	0.08057	0.07900	0.09500	low	clean apples-to-apples vs redis (same client)
+redis	memtier(C)	pipeline1 c1 t1	0.08299	0.08700	0.09500	low	clean apples-to-apples vs resp (same client)
+zaris-native	NativeBench(.NET)	concurrency1	0.122	NA	NA	20%	mean=1/throughput@conc1; includes .NET client per-op overhead (NOT comparable to memtier-C); client optimization in progress

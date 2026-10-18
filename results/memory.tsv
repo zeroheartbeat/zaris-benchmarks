@@ -1,0 +1,3 @@
+engine	keys	value_bytes	baseline_rss	loaded_rss	data_overhead	approx_per_key	notes
+redis	1108552	100	25.29MiB	221.6MiB	~196MiB	~185B	lean C, compact encodings
+zaris	1000000	100	86.67MiB	2.287GiB	~2.2GiB	~2.3KB	managed .NET + per-record metadata (labels/entity/content-type/abs-TTL/HLC) + ownership/replication structures; ~10x redis

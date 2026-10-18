@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # One native-protocol load point in MIXED 1:1 mode (same workload as memtier --ratio=1:1):
 # NativeBench from NCLIENTS client VMs against the seed, summing MIX ops/sec, sampling node CPU/mem.
-#   run-point-native.sh <seed_priv> <nnodes> <concurrency> <ops> <nclients>
+#   run-point-native.sh <seed_priv> <nnodes> <concurrency> <ops> <nclients> [procs_per_client]
+# Native request/response needs many in-flight ops to saturate a server; one client VM can't
+# fill a node, so we run PROCS NativeBench processes per client VM (each an independent client).
 set -uo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; source "$HERE/common.sh"
-SEED="$1"; N="$2"; CONC="$3"; OPS="$4"; NCLI="$5"
+SEED="$1"; N="$2"; CONC="$3"; OPS="$4"; NCLI="$5"; PROCS="${6:-1}"
 TMP=$(mktemp -d); SAMP=14
 
 for ((i=0;i<N;i++)); do
@@ -18,7 +20,13 @@ done
 
 for ((c=0;c<NCLI;c++)); do
   cip="${CLIENT_PUB[$c]}"
-  ssh $SSHO azureuser@"$cip" "/tmp/NativeBench --conn 'zaris://$SEED:$CLIENT_PORT/$CLUSTER_ID' --mode mixed --keyspace 1000000 --ops $OPS --concurrency $CONC --data $DATA_SIZE --ttl 0 --label c$c 2>/dev/null | grep -E 'SUMMARY'" > "$TMP/cli$c.txt" 2>/dev/null &
+  # timeout guards: a stuck NativeBench self-terminates (300s) so the inner `wait` returns,
+  # and the ssh itself is capped (360s) so one hung client can't block the whole sweep.
+  timeout 360 ssh $SSHO azureuser@"$cip" "
+    for p in \$(seq 1 $PROCS); do
+      timeout 300 /tmp/NativeBench --conn 'zaris://$SEED:$CLIENT_PORT/$CLUSTER_ID' --mode mixed --keyspace 1000000 --ops $OPS --concurrency $CONC --data $DATA_SIZE --ttl 0 --label c${c}p\$p 2>/dev/null | grep -E 'SUMMARY' &
+    done; wait
+  " > "$TMP/cli$c.txt" 2>/dev/null &
 done
 wait
 

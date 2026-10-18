@@ -3,8 +3,21 @@ zaris-resp-4core	1	2889151	pipe64 thr8 conn50	n0:97%/723.1MiB 	server-bound
 zaris-native-4core	1	1243774	conc4096 x3cli	n0:94%/2.118GiB 	server-bound
 redis-4core	1	2449364	pipe64 thr8 conn50	n0:98%/18.25MiB 	server-bound
 zaris-resp-4core	2	4813157	pipe64 thr8 conn100	n0:98%/771.5MiB n1:98%/787.3MiB 	server-bound
-zaris-native-4core	2	1917608	conc2048 x3cli	n0:79%/1.143GiB n1:79%/1.137GiB 	CLIENT-BOUND(not saturated)
-redis-4core	2	798270	pipe64 thr8 conn50	n0:9%/9.176MiB n1:13%/9.199MiB 	CLIENT-BOUND(not saturated)
+redis-4core	2	4634211	pipe64 thr8 conn50	n0:98%/18.12MiB n1:97%/18.83MiB	server-bound
 zaris-resp-4core	3	7185809	pipe64 thr8 conn50	n0:97%/718.1MiB n1:98%/709.4MiB n2:97%/692.3MiB 	server-bound
-zaris-native-4core	3	2084541	conc4096 x3cli	n0:64%/1.04GiB n1:63%/1.029GiB n2:63%/1.036GiB 	CLIENT-BOUND(not saturated)
 redis-4core	3	6950251	pipe64 thr8 conn50	n0:93%/20.7MiB n1:93%/20.33MiB n2:98%/18.4MiB 	server-bound
+zaris-native-4core	2	2393922	conc3072 x3cli x2proc	n0:91%/1.281GiB n1:87%/1.254GiB 	server-bound
+zaris-native-4core	3	3451366	conc3072 x3cli x3proc	n0:89%/1.087GiB n1:88%/1.073GiB n2:89%/1.079GiB 	server-bound
+zaris-resp-8core	1	5559813	pipe64 thr8 conn50	n0:97%/1.375GiB 	server-bound
+zaris-native-8core	1	2059320	conc2048 x3cli x2proc	n0:93%/3.22GiB 	server-bound
+redis-8core	1	2972732	pipe64 thr8 conn50	n0:98%/39.05MiB 	server-bound
+zaris-resp-8core	2	9119011	pipe64 thr16 conn50	n0:98%/1.367GiB n1:98%/1.438GiB 	server-bound
+zaris-native-8core	2	4462717	conc2048 x3cli x3proc	n0:87%/2.034GiB n1:88%/2.027GiB 	server-bound
+redis-8core	2	5351243	pipe64 thr8 conn50	n0:98%/20.31MiB n1:94%/45.34MiB 	server-bound
+zaris-resp-8core	3	13685713	pipe64 thr8 conn50	n0:97%/1.273GiB n1:93%/1.238GiB n2:97%/1.334GiB 	server-bound
+zaris-native-8core	3	5878794	conc3072 x3cli x6proc	n0:88%/1.926GiB n1:89%/1.946GiB n2:89%/1.915GiB 	server-bound
+redis-8core	3	7565926	pipe64 thr8 conn50	n0:98%/20.25MiB n1:99%/19.51MiB n2:98%/41.43MiB 	server-bound
+zaris-native-4core	3	3451366	conc3072 x3cli x3proc	n0:89%/1.087GiB n1:88%/1.073GiB n2:89%/1.079GiB 	server-bound
+zaris-native-inline-8core	1	5092046	3p-x3cli-x6c conc768 INLINE_HOT_PATH=1	n0:92%/2.689GiB	server-bound
+zaris-native-inline-8core	2	11441228	5p-x3cli-x6c conc512 INLINE_HOT_PATH=1	n0:78% n1:81% (not saturated; cpu sampling noisy)	near-bound
+zaris-native-inline-8core	3	18519862	9p-x3cli-x6c conc448 INLINE_HOT_PATH=1	n0:84% n1:86% n2:85%	server-bound

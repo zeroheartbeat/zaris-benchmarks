@@ -17,6 +17,17 @@ The full matrix is **{ Redis, Zaris (RESP API), Zaris (native API) } × { 1, 2, 
 - **Zaris native** is driven by [`NativeBench`](src/NativeBench) over the Zaris binary protocol, in a
   **mixed 1:1** mode that matches the memtier workload exactly.
 
+Besides cluster throughput, we also measure **per-operation latency** (one op in flight, `results/latency.tsv`)
+and **memory footprint** for a fixed dataset (`results/memory.tsv`).
+
+### Native inline hot path (opt-in)
+
+Zaris has an opt-in server mode, `ZARIS_INLINE_HOT_PATH=1` (replication-factor-1 stores), that runs each
+native request inline on the socket thread — no cross-thread hop — the structural equivalent of the Redis
+fast path. Driven by the native client with a handful of connections per core, it is the highest-throughput
+configuration at scale (it beats the RESP numbers at 2+ nodes). It is reported separately
+(`zaris-native-inline-*` rows) because it is opt-in and RF1; the drop-in RESP numbers need nothing special.
+
 ## Methodology — how we find the real number
 
 The single rule: **a published number is the throughput at which the *server* saturates**, not the client.
@@ -75,6 +86,14 @@ scripts/deploy-zaris.sh 3 resp
 scripts/sweep-pinned.sh zaris-resp-4core 3
 ```
 
+Native inline hot path (opt-in, RF1), per-op latency, and memory footprint:
+
+```bash
+INLINE_HOT_PATH=1 scripts/deploy-zaris.sh 3 native   # inline server mode on
+scripts/run-latency.sh resp    <seed-priv-ip>        # per-op latency (also: redis | native)
+scripts/mem-footprint.sh zaris 1000000               # RSS for 1M x 100B keys (also: redis)
+```
+
 The exact memtier invocation (what actually generates the Redis-protocol load):
 
 ```bash
@@ -85,9 +104,12 @@ docker run --rm --network host redislabs/memtier_benchmark \
 
 ## Results
 
-See [`results/matrix.tsv`](results/matrix.tsv) for the raw matrix (peak ops/sec, the load point that
-produced it, per-node CPU%/memory, and the server-bound flag) and [`results/`](results/) for the full
-per-run logs. The headline summary is on <https://clustron.io/benchmarks>.
+- [`results/matrix.tsv`](results/matrix.tsv) — the throughput matrix (peak ops/sec, the load point that
+  produced it, per-node CPU%/memory, and the server-bound flag), including the `zaris-native-inline-*` rows.
+- [`results/latency.tsv`](results/latency.tsv) — per-operation latency (one op in flight).
+- [`results/memory.tsv`](results/memory.tsv) — memory footprint for a fixed 1M × 100-byte dataset.
+
+The headline summary is on <https://clustron.io/benchmarks>.
 
 ## License
 
